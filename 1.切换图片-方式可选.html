@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body {
+			color: #fff;
+		}
+		p {
+			margin: 0;
+		}
+
+		#wrap {
+			position: relative;
+			width: 600px;
+			height: 400px;
+			border: 10px solid blue;
+		}
+
+		#prev,
+		#next {
+			position: absolute;
+			top: 180px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			font-size: 32px;
+			text-decoration: none;
+			text-align: center;
+			color: #fff;
+			background: rgba(0,0,0,.4);
+		}
+		#prev:hover,
+		#next:hover {
+			background: rgba(0,0,0,.8);
+		}
+
+		#prev {
+			left: 0;
+		}
+
+		#next {
+			right: 0;
+		}
+
+		#para {
+			height: 40px;
+			line-height: 40px;
+			color: green;
+		}
+
+		#count,
+		#title {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 20px;
+			line-height: 20px;
+			text-align: center;
+			background: rgba(0,0,0,.4);
+		}
+
+		#title {
+			top: 380px;
+		}
+
+	</style>
+	<script>
+		/*
+		
+			需求: 两种图片切换可选
+
+			思路: 用一个开关变量来控制两种切换方式的选择
+
+		*/
+
+
+		function $(obj){
+			return document.getElementById(obj);
+		}
+		window.onload = function (){
+			var btn1 = $("btn1");
+			var btn2 = $("btn2");
+			var para = $("para");
+			var pic = $("img");
+			var prev = $("prev");
+			var next = $("next");
+			var count = $("count");
+			var title = $("title");
+			var count = $("count");
+			var title = $("title");
+			var arrText = ["文字一","文字二","文字三","文字四","文字五"];
+			var onOff = true;
+			var n = 0,len = 5;
+			
+			// 点击选择循环切换
+			btn1.onclick = function (){
+				onOff = true;
+			}
+
+			// 点击选择顺序切换
+			btn2.onclick = function (){
+				onOff = false;
+			}
+
+			// 点击上一张
+			prev.onclick = function (){
+				n--;
+				if( onOff ){ // 判断onOff的状态来决定用哪种方式切换
+					if( n < 0 ){
+						n = len - 1;
+					}
+				}else {
+					if( n < 0 ) {
+						n = 0;
+						alert("已经是第一张了!");
+					}
+				}
+				pic.src="img/"+(n+1)+".jpg";
+				count.innerHTML = n+1 + " / " + 5;
+				title.innerHTML = arrText[n];
+			}
+
+			// 点击下一张
+			next.onclick = function (){
+				n++;
+				if( onOff ){
+					if( n > len - 1 ){
+						n = 0;
+					}
+				}else {
+					if( n > len - 1 ) {
+						n = len - 1;
+						alert("已经是最后一张了!");
+					}
+				}
+				pic.src="img/"+(n+1)+".jpg";
+				count.innerHTML = n+1 + " / " + 5;
+				title.innerHTML = arrText[n];
+			}
+		}
+	</script>
+</head>
+<body>
+	<input type="button" id="btn1" value="循环切换" />
+	<input type="button" id="btn2" value="顺序切换" />
+	<p id="para">图片可从最后一张跳转到第一张循环切换</p>
+	<div id="wrap">
+		<img src="img/1.jpg" id="img" alt="">
+		<a href="javascript:void(0)" id="prev">&lt;</a>
+		<a href="javascript:void(0)" id="next">&gt;</a>
+		<span id="count">1 / 5</span>
+		<p id="title">文字一</p>
+	</div>
+</body>
+</html>
